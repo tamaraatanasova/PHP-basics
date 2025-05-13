@@ -11,7 +11,7 @@ else
 
 $rating = 7;
 
-if($rating >= 1 || $rating <=10)
+if($rating >= 1 && $rating <=10)
 {
     echo 'Thank you for rating';
 }
