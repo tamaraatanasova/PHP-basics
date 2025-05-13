@@ -1,0 +1,195 @@
+<?php
+$newLine = "<br><br>";
+
+//Function 1: Converts decimal numbers to a binary number
+echo '<b>Converting a numbers from a decimal to a binary number system:</b><hr>';
+
+function decimalToBinary(int $decimal): string{
+    $binary ="";
+    if($decimal == 0)
+    {
+        return "0";
+    }
+
+    while($decimal > 0)
+    {
+        $binary = ($decimal % 2).$binary;
+        $decimal = (int)($decimal / 2);
+    }
+    return $binary;
+}
+$decimal1 = 11;
+// $decimal1 = 'abc';
+if(is_numeric($decimal1))
+{
+    $binary1 = decimalToBinary($decimal1);
+    echo "$decimal1<sub>10</sub> = $binary1<sub>2</sub>";
+}
+else{
+    echo "Invalid input";
+}
+echo $newLine;
+
+
+
+//Function 1: Converts decimal numbers to a binary number-recursive
+
+function decimalToBinaryR(int $decimal): string{
+    if ($decimal != 0) {
+        return decimalToBinaryR((int)($decimal / 2)) . ($decimal % 2);
+    }
+}
+$decimal2 = 111;
+// $decimal2 = 'abc';
+if(is_numeric($decimal2))
+{
+    $binary2 = decimalToBinaryR($decimal2);
+    echo "$decimal2<sub>10</sub> = $binary2<sub>2</sub>";
+}else{
+    echo "Invalid input";
+}
+echo $newLine;
+
+
+echo '<b>Converting a number from decade to roman:</b><hr>';
+// Function 2: Converts decimal number to Roman number. The maximum number that can be converted is 3999. If the number exceeds 3999, the function should print an error messag.
+function isInRange(int $n): bool{
+    if($n > 3999)
+    {
+        return false;
+    }
+    return true;
+}
+$romanNumerals = [
+    'M' => 1000,
+    'CM' => 900,
+    'D' => 500,
+    'CD' => 400,
+    'C' => 100,
+    'XC' => 90,
+    'L' => 50,
+    'XL' => 40,
+    'X' => 10,
+    'IX' => 9,
+    'V' => 5,
+    'IV' => 4,
+    'I' => 1
+];
+
+
+function decimalToRoman(int $decimal, array $romanNumerals): string{
+    $result = '';
+    foreach ($romanNumerals as $roman => $value) {
+        while ($decimal >= $value) {
+            $result .= $roman;
+            $decimal -= $value;
+        }
+    }
+    return $result;
+}
+
+$decimal3 =123;  
+// $decimal3 ='abc';
+// $decimal3 =40000;
+if(is_numeric($decimal3) && isInRange($decimal3) )
+{
+    $roman1 = decimalToRoman($decimal3, $romanNumerals);
+    echo "$decimal3<sub>10</sub> = $roman1";
+    
+}else{
+    echo "Invalid input";
+}
+echo $newLine;
+
+// Function 2: Converts decimal number to Roman number. The maximum number that can be converted is 3999. If the number exceeds 3999, the function should print an error messag. - recursive
+function decimalToRomanR(int $decimal, array $romanNumerals): string{
+    if ($$decimal != 0) {
+        foreach ($romanNumerals as $roman => $value) {
+            if ($$decimal >= $value) {
+                return $roman . decimalToRoman($$decimal - $value, $romanNumerals);
+            }
+        }
+    }
+}
+
+$decimal4 =321;
+// $decimal4 ='abc';
+// $decimal4 =40000;
+if(is_numeric($decimal4) && isInRange($decimal4) )
+{
+    $roman2 = decimalToRoman($decimal4, $romanNumerals);
+    echo "$decimal4<sub>10</sub> = $roman2";
+    
+}else{
+    echo "Invalid input";
+}
+echo $newLine;
+
+
+echo '<b>Converting a number from binary to decimal:</b><hr>';
+// Function 3: Converts a binary number to a decimal number.
+function isBinary(string|int $binary):bool{
+    return strspn($binary, '01') == strlen($binary);
+} 
+
+function binaryToDecimal(string|int $binary): int{
+    $decimal = 0;
+    $length = strlen($binary);
+
+    for ($i = 0; $i < $length; $i++) {
+        $decimal += (int)$binary[$i] * pow(2, $length - $i - 1);
+    }
+
+    return $decimal;
+}
+
+$binary3 = '1011';
+// $binary3 = 'abc';
+// $binary3 = 111;
+// $binary3 = 123   ;
+if(is_numeric($binary3)){
+    $binary3 = strval($binary3);
+}
+if (isBinary($binary3)) {
+    $decimal = binaryToDecimal($binary3);
+    echo "$binary3<sub>2</sub> =$decimal<sub>10</sub>";
+} else {
+    echo "Invalin number";
+}
+echo $newLine;
+
+
+echo '<b>Converting a number from roman to decimal:</b><hr>';
+// Function 4: Converts a Roman number to a decimal number.
+function isValidRoman(string $roman) : bool{
+    return preg_match('/^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/', $roman);
+}
+function romanToDecimal(string $roman,array $romanNumerals): int {
+    $decimal = 0;
+    $length = strlen($roman);
+
+    for ($i = 0; $i < $length; $i++) {
+        $currentValue = $romanNumerals[$roman[$i]];
+        if ($i + 1 < $length && $romanNumerals[$roman[$i + 1]] > $currentValue) {
+            $decimal -= $currentValue;
+        } else {
+            $decimal += $currentValue;
+        }
+    }
+
+    return $decimal;
+}
+
+$roman3 = 'VI';
+// $roman3 = 'ii';
+// $roman3 = 'abc';
+// $roman3 = 123;
+$roman3 = strtoupper($roman3);
+if(isValidRoman($roman3))
+{
+    echo "$roman3 = ".romanToDecimal($roman3, $romanNumerals)."<sub>10</sub>";
+}
+else{
+    echo "Invalin number";
+}
+echo $newLine;
